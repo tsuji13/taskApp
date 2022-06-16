@@ -144,26 +144,24 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
     
     func searchBarSearchButtonClicked(_ serchBar: UISearchBar){
         
-        //categorySerchBar.endEditing(true)
-        
         guard let inputText = serchBar.text?.lowercased() else{
-            taskArray = realm.objects(Task.self)//空文字が入力されたときは保存されているタスク全てを保存
+            
+            taskArray=realm.objects(Task.self)
+            //searchbarにnilが入っている場合保存されているタスク全てを表示
             return
           
         }
         if inputText.isEmpty || inputText.contains(" ") || inputText.contains("　"){
             
-            taskArray = realm.objects(Task.self)//空文字が入力されたときは保存されているタスクを全て表示
+            taskArray = realm.objects(Task.self)
+            //空文字が入力された時も保存されているタスクを全て表示
             
-            print("empty")/* テスト*/
         }
         
         else{
             
         taskArray = realm.objects(Task.self).filter("category BEGINSWITH[c] '\(inputText)'")/* searchBarに入力されたカテゴリーを含むタスクのみを表示*/
         
-            print(inputText)/* テスト*/
-            print("not empty")/* テスト*/
         }
         
         tableview.reloadData()
